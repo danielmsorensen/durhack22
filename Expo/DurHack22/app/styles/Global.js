@@ -10,7 +10,6 @@ export default StyleSheet.create({
     },
 
     container: {
-        flex: 1,
-        paddingHorizontal: "5%"
+        flex: 1
     },
 });

@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View, StatusBar} from 'react-native';
 
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -14,7 +13,7 @@ function Root() {
       <SafeAreaProvider>
           <NavigationContainer>
               <Stack.Navigator screenOptions={{
-                headerShown: false
+                  headerShown: false
               }}>
                   <Stack.Screen name="Camera" component={Camera} />
               </Stack.Navigator>
@@ -24,7 +23,9 @@ function Root() {
 }
 
 export default function App() {
-  return (
-      <Root />
-  );
+    StatusBar.setBarStyle("light-content");
+
+      return (
+          <Root />
+      );
 }
