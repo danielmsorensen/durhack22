@@ -22,13 +22,19 @@ function ImageCropper(props) {
     const [measured, setMeasured] = useState(false);
 
     const crop =() => {
-        manipulateAsync(uri, [{crop: {originX: minX * size.width, originY: minY * size.height, width: (maxX - minX) * size.width, height: (maxY - minY) * size.height}}])
+        manipulateAsync(uri,
+            [{crop: {originX: minX * size.width, originY: minY * size.height, width: (maxX - minX) * size.width, height: (maxY - minY) * size.height}}],
+            {base64: true})
             .then(result => {
                 setUri(result.uri);
                 setSize({width: result.width, height: result.height});
                 setMeasured(false);
 
                 setMinX(0); setMinY(0); setMaxX(1); setMaxY(1);
+
+                if(props.onCrop) {
+                    props.onCrop(result);
+                }
             })
             .catch(error => console.warn(error));
     };
@@ -65,7 +71,9 @@ ImageCropper.propTypes = {
     style: PropTypes.object,
     uri: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired
+    height: PropTypes.number.isRequired,
+
+    onCrop: PropTypes.func
 };
 
 const styles = StyleSheet.create({
