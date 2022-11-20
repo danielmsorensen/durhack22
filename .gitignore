@@ -152,3 +152,5 @@ docs/pages/versions/*/react-native/*.diff
 /ios/versioned-react-native/*/ReactNative/sdks/hermes-engine/destroot
 
 /ML/mathematics_dataset-v1.0
+ML/Bert.wlnet
+ML/bert.onnx
