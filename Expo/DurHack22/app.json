@@ -1,7 +1,10 @@
 {
   "expo": {
-    "name": "DurHack22",
+    "name": "Study Buddy",
     "slug": "DurHack22",
+    "description": "Teaching the method is always better than just giving the answer",
+    "githubUrl": "https://github.com/danielmsorensen/durhack22",
+    "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
