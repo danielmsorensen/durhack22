@@ -1,10 +1,12 @@
 import {useCallback, useRef, useState} from "react";
 import {useFocusEffect} from "@react-navigation/native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {Pressable, Text, View, StyleSheet, Image} from "react-native";
+import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 
-import {Camera, CameraType} from 'expo-camera';
+import {Camera, CameraType} from "expo-camera";
 import {MaterialIcons, MaterialCommunityIcons} from "@expo/vector-icons";
+
+import ImageCropper from "../scripts/ImageCropper";
 
 import Global from "../styles/Global";
 import Colours from "../styles/Colours";
@@ -14,7 +16,7 @@ function CameraScreen() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
 
     const [camera, setCamera] = useState(null);
-    const [picture, setPicture] = useState("");
+    const [picture, setPicture] = useState(null);
 
     const flipCamera = () => {
         setType(type === CameraType.back ? CameraType.front : CameraType.back);
@@ -23,7 +25,7 @@ function CameraScreen() {
     const takePicture = async () => {
         if(camera) {
             camera.takePictureAsync({
-                onPictureSaved: ({uri}) => setPicture(uri)
+                onPictureSaved: ({uri, width, height}) => setPicture({uri, width, height})
             }).catch(error => console.warn(error));
         }
     };
@@ -42,26 +44,28 @@ function CameraScreen() {
                         {!picture ? (
                             <View style={styles.container}>
                                 <Camera style={styles.camera} ref={ref => setCamera(ref)} type={type} />
-                                <Pressable style={styles.topButton} onPress={flipCamera}>
+                                <TouchableOpacity style={styles.topButton} onPress={flipCamera}>
                                     <MaterialCommunityIcons name="camera-flip" color="white" size={35} />
-                                </Pressable>
-                                <Pressable style={styles.bottomButton} onPress={takePicture}>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.bottomButton} onPress={takePicture}>
                                     <MaterialCommunityIcons name="circle-slice-8" color="white" size={75} />
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                         ) : (
                             <View style={styles.container}>
-                                <Image style={styles.camera} source={{uri: picture}} />
-                                <Pressable style={styles.topButton} onPress={() => setPicture("")}>
+                                <ImageCropper style={styles.camera} uri={picture.uri} width={picture.width} height={picture.height} />
+                                <TouchableOpacity style={styles.topButton} onPress={() => setPicture(null)}>
                                     <MaterialIcons name="arrow-back" color="white" size={35} />
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                         )}
                     </View>
                 ) : (
-                    <Pressable style={styles.button} onPress={requestPermission}>
-                        <Text style={styles.buttonText}>Allow Camera Access</Text>
-                    </Pressable>
+                    <View style={{flex: 1, alignContent: "center", justifyContent: "center"}}>
+                        <TouchableOpacity style={styles.button} onPress={requestPermission}>
+                            <Text style={styles.buttonText}>Allow Camera Access</Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
             </View>
         </SafeAreaView>
