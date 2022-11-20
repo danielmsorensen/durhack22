@@ -1,0 +1,14 @@
+{
+  "name": "imagetotexttesting",
+  "version": "1.0.0",
+  "description": "A JavaScript file to do image to text.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node imagetext.js"
+  },
+  "author": "Jeremy Roy",
+  "license": "ISC",
+  "dependencies": {
+    "tesseract.js": "^3.0.3"
+  }
+}
